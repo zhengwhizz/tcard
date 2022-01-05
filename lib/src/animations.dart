@@ -15,6 +15,10 @@ class CardSizes {
   static Size back(BoxConstraints constraints) {
     return Size(constraints.maxWidth * 0.8, constraints.maxHeight * .9);
   }
+
+  static Size fourth(BoxConstraints constraints) {
+    return Size(constraints.maxWidth * 0.8, constraints.maxHeight * .8);
+  }
 }
 
 /// Card Alignments
@@ -22,6 +26,7 @@ class CardAlignments {
   static Alignment front = Alignment(0.0, -0.5);
   static Alignment middle = Alignment(0.0, 0.0);
   static Alignment back = Alignment(0.0, 0.5);
+  static Alignment fourth = Alignment(0.0, .5);
 }
 
 /// Card Forward Animations
@@ -94,6 +99,20 @@ class CardAnimations {
     );
   }
 
+  static Animation<Alignment> fourthCardAlignmentAnimation(
+    AnimationController parent,
+  ) {
+    return AlignmentTween(
+      begin: CardAlignments.fourth,
+      end: CardAlignments.back,
+    ).animate(
+      CurvedAnimation(
+        parent: parent,
+        curve: Interval(0.4, 0.7, curve: Curves.easeIn),
+      ),
+    );
+  }
+
   /// 最后面卡片尺寸变换动画
   static Animation<Size?> backCardSizeAnimation(
     AnimationController parent,
@@ -102,6 +121,21 @@ class CardAnimations {
     return SizeTween(
       begin: CardSizes.back(constraints),
       end: CardSizes.middle(constraints),
+    ).animate(
+      CurvedAnimation(
+        parent: parent,
+        curve: Interval(0.4, 0.7, curve: Curves.easeIn),
+      ),
+    );
+  }
+
+  static Animation<Size?> fourthCardSizeAnimation(
+    AnimationController parent,
+    BoxConstraints constraints,
+  ) {
+    return SizeTween(
+      begin: CardSizes.fourth(constraints),
+      end: CardSizes.back(constraints),
     ).animate(
       CurvedAnimation(
         parent: parent,
@@ -181,6 +215,20 @@ class CardReverseAnimations {
     );
   }
 
+  static Animation<Alignment> fourthCardAlignmentAnimation(
+    AnimationController parent,
+  ) {
+    return AlignmentTween(
+      begin: CardAlignments.back,
+      end: CardAlignments.fourth,
+    ).animate(
+      CurvedAnimation(
+        parent: parent,
+        curve: Interval(0.4, 0.7, curve: Curves.easeIn),
+      ),
+    );
+  }
+
   /// 最后面卡片尺寸变换动画
   static Animation<Size?> backCardSizeAnimation(
     AnimationController parent,
@@ -189,6 +237,21 @@ class CardReverseAnimations {
     return SizeTween(
       begin: CardSizes.middle(constraints),
       end: CardSizes.back(constraints),
+    ).animate(
+      CurvedAnimation(
+        parent: parent,
+        curve: Interval(0.4, 0.7, curve: Curves.easeIn),
+      ),
+    );
+  }
+
+  static Animation<Size?> fourthCardSizeAnimation(
+    AnimationController parent,
+    BoxConstraints constraints,
+  ) {
+    return SizeTween(
+      begin: CardSizes.back(constraints),
+      end: CardSizes.fourth(constraints),
     ).animate(
       CurvedAnimation(
         parent: parent,

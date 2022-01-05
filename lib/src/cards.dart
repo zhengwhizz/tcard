@@ -237,6 +237,51 @@ class TCardState extends State<TCard> with TickerProviderStateMixin {
     }
   }
 
+  // the fourth card
+  Widget _fourthCard(BoxConstraints constraints) {
+    Widget child = _frontCardIndex < _cards.length - 3
+        ? _cards[_frontCardIndex + 3]
+        : Container();
+    bool forward = _cardChangeController.status == AnimationStatus.forward;
+    bool reverse = _cardReverseController.status == AnimationStatus.forward;
+
+    if (reverse) {
+      return Align(
+        alignment: CardReverseAnimations.fourthCardAlignmentAnimation(
+          _cardReverseController,
+        ).value,
+        child: SizedBox.fromSize(
+          size: CardReverseAnimations.fourthCardSizeAnimation(
+            _cardReverseController,
+            constraints,
+          ).value,
+          child: child,
+        ),
+      );
+    } else if (forward) {
+      return Align(
+        alignment: CardAnimations.fourthCardAlignmentAnimation(
+          _cardChangeController,
+        ).value,
+        child: SizedBox.fromSize(
+          size: CardAnimations.fourthCardSizeAnimation(
+            _cardChangeController,
+            constraints,
+          ).value,
+          child: child,
+        ),
+      );
+    } else {
+      return Align(
+        alignment: CardAlignments.fourth,
+        child: SizedBox.fromSize(
+          size: CardSizes.fourth(constraints),
+          child: child,
+        ),
+      );
+    }
+  }
+
   // 判断是否在进行动画
   bool _isAnimating() {
     return _cardChangeController.status == AnimationStatus.forward ||
@@ -468,6 +513,7 @@ class TCardState extends State<TCard> with TickerProviderStateMixin {
 
           return Stack(
             children: <Widget>[
+              _fourthCard(constraints),
               _backCard(constraints),
               _middleCard(constraints),
               _frontCard(constraints),
